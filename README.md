@@ -4,8 +4,12 @@ This a very light and fast image loader with very eye catching animation which y
 A Loader that set his width height according to screen width and height.
 
 Import .h and .m file of loader in your project then to use this loader simply create intance of loader in your .h file of viewController
+```ruby
+require 'redcarpet'
+markdown = Redcarpet.new("@property(strong,nonatomic) DImageLoader *loader;")
+puts markdown.to_html
+```
 
-@property(strong,nonatomic) DImageLoader *loader;
 
 After this you have to initialize loader class before showing loader in view
 
