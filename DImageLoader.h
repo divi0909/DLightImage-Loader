@@ -15,6 +15,20 @@
 
 @property(strong,nonatomic) UIImage *offImage;
 
+@property(strong,nonatomic) UIFont *font;
+
+@property(strong,nonatomic) UIColor *textColor;
+
+@property(strong,nonatomic) NSString *text;
+
++(DImageLoader *)sharedInstance;
+
+-(void)showText:(NSString *)text andFont:(UIFont *)font;
+
+-(void)hideText:(BOOL)choice;
+
+-(void)setDistanceFactor:(CGFloat)factor;
+
 -(void)setIncreaseFactor:(CGFloat)factor;
 
 -(void)setAnimationDuration:(CGFloat)duration;
