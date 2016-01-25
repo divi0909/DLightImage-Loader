@@ -4,7 +4,7 @@
 
 ####A Loader that set his width height according to screen width and height and fully customizable.####
 
-![alt text](https://drive.google.com/open?id=0BweFuxNrK8cUTW5SUnozQl9HUkE "Demo")
+![alt text](https://drive.google.com/open?id=0BweFuxNrK8cUWG91WlBQTHZNN0k "Demo")
 
 Import .h and .m file of loader in your project then to use this loader simply create intance of loader in your .h file of viewController
 ```ruby
