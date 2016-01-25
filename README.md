@@ -50,7 +50,22 @@ set this by calling
 ```ruby
 [loader setAnimationDuration:(CGFloat)duration];
 ```
+#####(4) textColor-> This property is used for setting textcolor of your loader text.####
+```ruby
+loader.textcolor = [UIColor redColor];
+```
+#####(5) font-> This property is used for setting font of your loader text.####
 
+```ruby
+loader.font = [UIFont yourFont];
+```
+
+#####(6) text-> This property is used for setting text for your loader.####
+```ruby
+loader.text = @"Your Text Here";
+or
+[loader showText:@"Your Text Here" andFont:yourFont];
+```
 Happy Coding... :)
 
 
