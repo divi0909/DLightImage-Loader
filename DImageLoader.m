@@ -13,6 +13,8 @@
 {
     UIImageView *imgBall1,*imgBall2,*imgBall3;
     
+    UILabel *lblText;
+    
     CGFloat widthFactor,HeightFactor;
     
     CGFloat screenWidth,screenHeight;
@@ -25,7 +27,7 @@
     
     CGFloat animDuration;
     
-    BOOL stopAnimation;
+    BOOL stopAnimation,showText;
 }
 @synthesize onImage,offImage;
 
@@ -48,20 +50,18 @@
     HeightFactor = 6.25;
     screenWidth = [UIScreen mainScreen].bounds.size.width;
     screenHeight = [UIScreen mainScreen].bounds.size.height;
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        distanceFactor = window.center.x-((screenWidth*widthFactor)/100)/2-20;
-    }
-    else
-    {
-        distanceFactor = window.center.x-((screenWidth*widthFactor)/100)/2-10;
-    }
+    showText = NO;
     return [super init];
 }
 
 #pragma mark
 #pragma mark-Manual Configuration Method
+
+-(void)showText:(NSString *)text andFont:(UIFont *)font
+{
+    _text = text;
+    _font = font;
+}
 
 -(void)setIncreaseFactor:(CGFloat)factor
 {
@@ -83,6 +83,15 @@
     offImage = yourImage;
 }
 
+-(void)setDistanceFactor:(CGFloat)factor
+{
+    distanceFactor = factor;
+}
+
+-(void)hideText:(BOOL)choice
+{
+    showText = choice;
+}
 #pragma mark
 #pragma mark-Show/Hide Method
 
@@ -103,12 +112,57 @@
     {
         animDuration = 0.3;
     }
+    if(distanceFactor == 0.0)
+    {
+        if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            distanceFactor = 30.0f;
+        }
+        else
+        {
+            distanceFactor = 20.0f;
+        }
+    }
     
-    imgBall1 = [[UIImageView alloc]initWithFrame:CGRectMake(lView.center.x-distanceFactor-(screenWidth*widthFactor)/100, lView.center.y, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
+    if(!_text)
+    {
+        _text = @"Loading...";
+    }
     
-    imgBall2 = [[UIImageView alloc]initWithFrame:CGRectMake(lView.center.x-((screenWidth*widthFactor)/100)/2, lView.center.y, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
+    if(!_font)
+    {
+        _font = [UIFont fontWithName:@"ChalkBoard SE" size:14];
+    }
     
-    imgBall3 = [[UIImageView alloc]initWithFrame:CGRectMake(lView.center.x+distanceFactor+(screenWidth*widthFactor)/100, lView.center.y, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
+    CGFloat centreM = lView.center.x-((screenWidth*widthFactor)/100)/2;
+    CGFloat centerP = lView.center.x+((screenWidth*widthFactor)/100)/2;
+    
+    if(!showText)
+    {
+        CGSize lblWidth = [_text sizeWithAttributes:@{NSFontAttributeName:_font}];
+
+        lblText = [[UILabel alloc]initWithFrame:CGRectMake(centreM-lblWidth.width/2, lView.center.y-((screenHeight*HeightFactor)/100)/2-_font.lineHeight-10,lblWidth.width*1.5, _font.lineHeight)];
+        
+        if(_textColor)
+        {
+            lblText.textColor = _textColor;
+        }
+        
+        lblText.textAlignment = NSTextAlignmentCenter;
+        
+        lblText.font = _font;
+        
+        lblText.text = _text;
+        
+        [lView insertSubview:lblText atIndex:[lView.subviews count]];
+        
+    }
+    
+    imgBall1 = [[UIImageView alloc]initWithFrame:CGRectMake(centreM-distanceFactor-(screenWidth*widthFactor)/100, lView.center.y-((screenHeight*HeightFactor)/100)/2, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
+    
+    imgBall2 = [[UIImageView alloc]initWithFrame:CGRectMake(centreM, lView.center.y-((screenHeight*HeightFactor)/100)/2, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
+    
+    imgBall3 = [[UIImageView alloc]initWithFrame:CGRectMake(centerP+distanceFactor, lView.center.y-((screenHeight*HeightFactor)/100)/2, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
     
     imgBall1.layer.cornerRadius = imgBall1.frame.size.width/2;
     
@@ -127,7 +181,7 @@
     [lView insertSubview:imgBall2 atIndex:[lView.subviews count]];
 
     [lView insertSubview:imgBall3 atIndex:[lView.subviews count]];
-
+    
     if(!onImage && !offImage)
     {
         imgBall1.backgroundColor = [UIColor lightGrayColor];
@@ -146,12 +200,17 @@
 
 -(void)stopLoader
 {
-    increaseFactor = 0.0;
-    animDuration = 0.0;
-    stopAnimation = YES;
     [imgBall1 removeFromSuperview];
     [imgBall2 removeFromSuperview];
     [imgBall3 removeFromSuperview];
+    [lblText removeFromSuperview];
+    increaseFactor = 0.0;
+    animDuration = 0.0;
+    stopAnimation = YES;
+    distanceFactor = 0.0;
+    _text = @"Loading...";
+    showText = YES;
+
 }
 
 
