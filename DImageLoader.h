@@ -39,7 +39,6 @@
 
 -(void)startLoaderOnView:(UIView *)lView;
 
--(void)stopLoader;
-
+-(void)stopLoaderOnView:(UIView *)lView;
 
 @end
