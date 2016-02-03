@@ -50,6 +50,15 @@
     HeightFactor = 6.25;
     screenWidth = [UIScreen mainScreen].bounds.size.width;
     screenHeight = [UIScreen mainScreen].bounds.size.height;
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        distanceFactor = window.frame.origin.x+((screenWidth*widthFactor)/100)/2+20;
+    }
+    else
+    {
+        distanceFactor = window.frame.origin.x+((screenWidth*widthFactor)/100)/2+10;
+    }
     showText = NO;
     return [super init];
 }
@@ -158,11 +167,11 @@
         
     }
     
-    imgBall1 = [[UIImageView alloc]initWithFrame:CGRectMake(centreM-distanceFactor-(screenWidth*widthFactor)/100, lView.center.y-((screenHeight*HeightFactor)/100)/2, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
+    imgBall1 = [[UIImageView alloc]initWithFrame:CGRectMake(lView.center.x-distanceFactor-(screenWidth*widthFactor)/100, lView.center.y, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
     
-    imgBall2 = [[UIImageView alloc]initWithFrame:CGRectMake(centreM, lView.center.y-((screenHeight*HeightFactor)/100)/2, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
+    imgBall2 = [[UIImageView alloc]initWithFrame:CGRectMake(lView.center.x-((screenWidth*widthFactor)/100)/2, lView.center.y, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
     
-    imgBall3 = [[UIImageView alloc]initWithFrame:CGRectMake(centerP+distanceFactor, lView.center.y-((screenHeight*HeightFactor)/100)/2, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
+    imgBall3 = [[UIImageView alloc]initWithFrame:CGRectMake(lView.center.x+distanceFactor, lView.center.y, (screenWidth*widthFactor)/100, (screenHeight*HeightFactor)/100)];
     
     imgBall1.layer.cornerRadius = imgBall1.frame.size.width/2;
     
@@ -182,6 +191,15 @@
 
     [lView insertSubview:imgBall3 atIndex:[lView.subviews count]];
     
+    [lView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if(![obj isKindOfClass:[UIImageView class]])
+        {
+            obj.alpha = 0.7;
+        }
+        
+    }];
+    
     if(!onImage && !offImage)
     {
         imgBall1.backgroundColor = [UIColor lightGrayColor];
@@ -198,7 +216,7 @@
     [self starAnimatingImages];
 }
 
--(void)stopLoader
+-(void)stopLoaderOnView:(UIView *)lView
 {
     [imgBall1 removeFromSuperview];
     [imgBall2 removeFromSuperview];
@@ -210,6 +228,10 @@
     distanceFactor = 0.0;
     _text = @"Loading...";
     showText = YES;
+    [lView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        obj.alpha = 1.0;
+        
+    }];
 
 }
 
