@@ -2,7 +2,7 @@
 
 ###This a very light and fast image loader with very eye catching animation which you can use by importing simply two .h and .m files. There are only two methods to use this loader first to show and another for removal. This loader is very handy for any application.###
 
-####A Loader that set his width height according to screen width and height and fully customizable.####
+####A loader that can be customized for every app with his app icon.####
 
 ![alt text](http://idivi.esy.es/images/ezgif.com-resize%20(2).gif "Demo")
 ![alt text](http://idivi.esy.es/images/ezgif.com-resize.gif "Demo2")
@@ -22,7 +22,7 @@ To show loader on View call
 ```
 To remove loader from view call
 ```ruby
-[loader stopLoader];
+[loader stopLoaderOnView:yourView];
 ```
 
 There are some properties which you can customize
